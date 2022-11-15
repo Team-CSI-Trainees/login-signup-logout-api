@@ -12,7 +12,7 @@ app.use(bodyparser.json());
 app.use(cookieParser());
 mongoose.Promise=global.Promise;
 
-mongoose.connect(db.DATABASE,{useNewUrlParser:true,useUnifiedTopology:true},function(err){
+mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{useNewUrlParser:true,useUnifiedTopology:true},function(err){
   if(err) console.log(err);
   console.log("Database is connected");
 });
@@ -66,8 +66,8 @@ app.post('/api/login', function(req,res){
                     if(err) return res.status(400).send(err);
                     res.cookie('auth',user.token).json({
                         isAuth : true,
-                        id : user._id
-                        ,email : user.email
+                        id : user._id,
+                        email : user.email
                     });
                 });
             });
@@ -82,16 +82,18 @@ app.get('/api/profile',auth,function(req,res){
             isAuth: true,
             id: req.user._id,
             email: req.user.email,
-            name: req.user.firstname + req.user.lastname
+            name: req.user.fullname
 
-        })
+        });
 });
 
 //logout user
  app.get('/api/logout',auth,function(req,res){
         req.user.deleteToken(req.token,(err,user)=>{
-            if(err) return res.status(400).send(err);
-            res.sendStatus(200);
+            if(err) {
+              console.log(err);
+              return res.status(400).send(err);
+            res.sendStatus(200);}
         });
 
     });
