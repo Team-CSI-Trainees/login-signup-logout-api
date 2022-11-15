@@ -2,7 +2,7 @@ const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 const config=require('../config/config').get(process.env.NODE_ENV);
 const salt=10;
-const mongoose= require('mongoose');
+var mongoose= require('mongoose');
 const userSchema=mongoose.Schema({
 fullname:{
   type:String,
@@ -80,7 +80,7 @@ fullname:{
 
 //}
 
-module.exports=mongoose.model('User',userSchema);
+
 
 userSchema.pre('save',function(next){
   var user=this;
@@ -137,3 +137,4 @@ userSchema.methods.deleteToken=function(token,cb){
     cb(null,user);
   })
 }
+module.exports=mongoose.model('User',userSchema);
