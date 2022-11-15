@@ -84,7 +84,7 @@ app.get('/api/profile',auth,function(req,res){
             email: req.user.email,
             name: req.user.fullname
 
-        });
+        })
 });
 
 //logout user
